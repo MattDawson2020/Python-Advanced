@@ -1,5 +1,5 @@
 class Account:
-    # example account uses a txt file for an external account, which is unrealistic, usually would be a DB
+        # example account uses a txt file for an external account, which is unrealistic, usually would be a DB
     def __init__(self, filepath):
         self.filepath=filepath
         with open(filepath, 'r') as file:
@@ -18,13 +18,19 @@ class Account:
             file.write(str(self.balance))
 
 
-account=Account("balance.txt")
-print(account)
-print(account.balance)
+class Checking(Account):
 
-account.withdraw(500)
-print(account.balance)
+    def __init__(self, filepath, fee):
+        Account.__init__(self, filepath)
+        self.fee = fee
 
-account.deposit(2000)
-print(account.balance)
 
+    def transfer(self, amount):
+        self.balance -= (amount * self.fee)
+
+
+acc=Checking("balance.txt", 0.05)
+acc.deposit(500)
+print(acc.balance)
+acc.transfer(50)
+print(acc.balance)
